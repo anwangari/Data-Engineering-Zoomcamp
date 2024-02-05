@@ -8,7 +8,7 @@ docker run -it \
   postgres:16
 
 
-  # connecting to 'pgcli'
+  # connecting to 'pgcli' (POSTGRES)
   pgcli -h localhost -p 5432 -u root -d ny-taxi
 
   # kill and delete all running containers
@@ -22,3 +22,13 @@ docker run -it \
 
 # Build an image from dockerfile
 docker build -t test:pandas .
+
+
+# CREATING SQL SCHEMA FROM A PANDAS DATAFRAME (data)
+print(pd.io.sql.get_schema(data, name="yellow_taxi_data"))
+
+## Add CONNECTION TO SQL-ENGINE
+print(pd.io.sql.get_schema(data, name="yellow_taxi_data", con=engine))
+
+## Adding data to SQL from pandas
+df.to_sql(name="yellow_taxi_data", con=engine, if_exists="append")
