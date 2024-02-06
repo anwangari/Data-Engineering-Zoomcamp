@@ -76,4 +76,31 @@ df.to_sql(name="yellow_taxi_data", con=engine, if_exists="append")
 # CONVERTING A JUPYTER NOTEBOOK TO A PYTHON SCRIPT FOR PUTTING IT IN DOCKER
   $ jupyter nbconvert --to=script notebook_name
 
-  
+    #Testing Locally
+
+    URL="https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_2021-01.parquet"
+
+    python ingestion.py \
+      --user=root \
+      --password=root \
+      --host=localhost \
+      --port=5432 \
+      --db=ny-taxi \
+      --table_name=yellow_taxi_trips \
+      --url=${URL}
+
+
+    # Testing in docker
+    
+    URL="https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_2021-01.parquet"
+
+    docker run -it \
+      --network=pg-network \
+      taxi_ingest:v001 \
+        --user=root \
+        --password=root \
+        --host=pg-database \
+        --port=5432 \
+        --db=ny_taxi \
+        --table_name=yellow_taxi_trips \
+        --url=${URL}
