@@ -1,6 +1,12 @@
 FROM python
 
 RUN pip install pandas
+RUN pip install sqlalchemy psycopg2-binary
+
+# INSTALL DEPENDENCIES FOR "read_parquet"
+RUN pip install pyarrow
+RUN pip install fastparquet
+
 
 WORKDIR /app
 
