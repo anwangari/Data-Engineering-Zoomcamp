@@ -1,9 +1,31 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# Import Libraries
+import argparse
+
 import pandas as pd
-from sqlalchemy import create_engine, MetaData
+from sqlalchemy import create_engine
+
+parser = argparse.ArgumentParser(description='Ingest some CSV data to Postgres.')
+
+# user
+# password
+# host
+# port
+# database_name
+# table_name 
+# url_of_the_csv 
+
+parser.add_argument('user', help='username for postgres')
+parser.add_argument('password', help='password for postgres user')
+parser.add_argument('host', help='host for postgres')
+parser.add_argument('port', help='port for postgres')
+parser.add_argument('db', help='database name for postgres')
+parser.add_argument('table-name', help='table name [in postgres] where we write results to')
+parser.add_argument('url', help='url of the csv file')
+
+args = parser.parse_args()
+print(args.accumulate(args.integers))
 
 # Create Engine
 engine = create_engine("postgresql://root:root@localhost:5432/ny-taxi")
