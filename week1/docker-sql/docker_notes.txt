@@ -34,3 +34,31 @@ print(pd.io.sql.get_schema(data, name="yellow_taxi_data", con=engine))
 
 ## Adding data to SQL from pandas
 df.to_sql(name="yellow_taxi_data", con=engine, if_exists="append")
+
+# CONNECTING TO POSTGRES USING 'pgadmin' ON DOCKER
+
+  docker run -it \
+    -e PGADMIN_DEFAULT_EMAIL="admin@admin.com" \
+    -e PGADMIN_DEFAULT_PASSWORD="root" \
+    -p 8080:80 \
+    dpage/pgadmin4
+
+  '''
+  Connect to pgadmin on 'localhost:8080' from browser. However, you may \
+  need to put them (pgAdmin and PostgreSQL) in a network since they are on \
+  different containers and cannot run together on 'localhost'
+  '''
+
+# Network
+  docker network create network-name
+
+  # 
+  docker run -it \
+    -e POSTGRES_USER="root" \
+    -e POSTGRES_PASSWORD="root" \
+    -e POSTGRES_DB="ny-taxi" \
+    -v $(pwd)/ny_taxi_postgres_data:/var/lib/postgresql/data \
+    -p 5432:5432 \
+    --network=pg-network \
+    --name pg-database \
+    postgres:16
