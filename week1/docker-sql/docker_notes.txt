@@ -60,7 +60,7 @@ df.to_sql(name="yellow_taxi_data", con=engine, if_exists="append")
     -v $(pwd)/ny_taxi_postgres_data:/var/lib/postgresql/data \
     -p 5432:5432 \
     --network=pg-network \
-    --name pg-database \
+    --name pg-database2 \
     postgres:16
 
   
@@ -69,14 +69,14 @@ df.to_sql(name="yellow_taxi_data", con=engine, if_exists="append")
     -e PGADMIN_DEFAULT_PASSWORD="root" \
     -p 8080:80 \
     --network=pg-network \
-    --name pgadmin-2 \
+    --name pgadmin-3 \
     dpage/pgadmin4
 
 
 # CONVERTING A JUPYTER NOTEBOOK TO A PYTHON SCRIPT FOR PUTTING IT IN DOCKER
   $ jupyter nbconvert --to=script notebook_name
 
-    #Testing Locally
+    #Testing Locally [Testing 'ingestion.py']
 
     URL="https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_2021-01.parquet"
 
@@ -90,8 +90,12 @@ df.to_sql(name="yellow_taxi_data", con=engine, if_exists="append")
       --url=${URL}
 
 
-    # Testing in docker
+    # Testing in docker network
+
+    # FIRST - BUILD THE IMAGE
+    docker build -t taxi_ingest:v001 .
     
+    # SECOND - RUN THE CODE IN DOCKER
     URL="https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_2021-01.parquet"
 
     docker run -it \
@@ -99,8 +103,8 @@ df.to_sql(name="yellow_taxi_data", con=engine, if_exists="append")
       taxi_ingest:v001 \
         --user=root \
         --password=root \
-        --host=pg-database \
+        --host=pg-database2 \
         --port=5432 \
-        --db=ny_taxi \
+        --db=ny-taxi \
         --table_name=yellow_taxi_trips \
         --url=${URL}
