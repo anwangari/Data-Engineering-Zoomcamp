@@ -1,7 +1,7 @@
 FROM python
 
-RUN pip install pandas
-RUN pip install sqlalchemy psycopg2-binary
+RUN apt-get install wget
+RUN pip install pandas sqlalchemy psycopg2-binary
 
 # INSTALL DEPENDENCIES FOR "read_parquet"
 RUN pip install pyarrow
@@ -10,6 +10,6 @@ RUN pip install fastparquet
 
 WORKDIR /app
 
-COPY pipeline.py pipeline.py
+COPY ingestion.py ingestion.py
 
-ENTRYPOINT ["python", "pipeline.py"]
+ENTRYPOINT ["python", "ingestion.py"]
