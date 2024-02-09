@@ -108,3 +108,8 @@ df.to_sql(name="yellow_taxi_data", con=engine, if_exists="append")
         --db=ny-taxi \
         --table_name=yellow_taxi_trips \
         --url=${URL}
+
+    
+    
+    sudo chmod a+rwx ny_taxi_postgres_data
+    sudo chmod a+rwx ny_taxi_postgres_data
